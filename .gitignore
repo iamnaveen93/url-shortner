@@ -21,7 +21,6 @@ gradle-app.setting
 .classpath
 
 .idea
-.gitignore
 gradle
 gradlew
 gradlew.bat

@@ -1,0 +1,43 @@
+services:
+  app:
+    image: url-shortner:latest
+    container_name: url-shortner
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: shortlink_db
+      DB_USERNAME: shortlink_user
+      DB_PASSWORD: shortlink_pass
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      EXPIRY_DAYS: 5
+    depends_on:
+      - mysql
+      - redis
+
+  mysql:
+    image: mysql:latest
+    container_name: shortlink-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: shortlink_db
+      MYSQL_USER: shortlink_user
+      MYSQL_PASSWORD: shortlink_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:latest
+    container_name: shortlink-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mysql_data:
+  redis_data:
